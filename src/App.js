@@ -14,11 +14,11 @@ function App() {
     }),
   })
     .then((res) => {
-      return Promise.all([res.json(), ...res.headers]);
+      return Promise.all([res.json(), res.headers]);
     })
-    .then((data, headers) => {
-      console.log(headers);
-      console.log(data);
+    .then(([data, headers]) => {
+      const authorisationValue = headers.get("authorization")
+      console.log(authorisationValue)
     });
 
   return <div className='App'></div>;
