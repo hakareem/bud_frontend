@@ -1,6 +1,9 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import useLocalStorage from "./util/useLocalStorage";
+import { Route, Routes } from "react-router-dom";
+import Dashboard from "./Dashboard/Dashboard";
+import Homepage from "./Homepage/Homepage";
 
 function App() {
 
@@ -31,10 +34,11 @@ function App() {
     }, [jwt])
 
   return (
-    <div className='App'>
-      <p>JWT VALUE IS: {jwt}</p>
-    </div>
-     )
+    <Routes>
+      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="/" element={<Homepage />} />
+    </Routes>
+    )
 }
 
 export default App;
