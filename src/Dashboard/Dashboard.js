@@ -1,5 +1,6 @@
 import React from 'react';
 import useLocalStorage from '../util/useLocalStorage';
+import './Dashboard.css';
 
 const Dashboard = () => {
     const [jwt] = useLocalStorage("", "jwt");
@@ -24,8 +25,14 @@ const Dashboard = () => {
     };
 
     return (
-        <div style={{ margin: "2em" }}>
-            <button id='submit' type='submit' onClick={createAssignment}>Add New Assignment</button>
+        <div className="dashboard-container">
+            <header className="dashboard-header">
+                <h1>Dashboard</h1>
+                <p>Welcome to your assignment management dashboard.</p>
+            </header>
+            <main className="dashboard-main">
+                <button className="create-assignment-button" onClick={createAssignment}>Add New Assignment</button>
+            </main>
         </div>
     );
 };

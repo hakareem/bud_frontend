@@ -1,0 +1,48 @@
+.dashboard-container {
+    text-align: center;
+    padding: 50px;
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dashboard-header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+.dashboard-header p {
+    margin: 10px 0 0;
+    font-size: 1.2em;
+}
+
+.dashboard-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.create-assignment-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.create-assignment-button:hover {
+    background-color: #45a049;
+}
