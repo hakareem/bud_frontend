@@ -1,17 +1,25 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 
 const useLocalStorage = (defaultValue, key) => {
-    const [jwt, setJwt] = React.useState(() => {
-        const val = window.localStorage.getItem(key)
+    const [storedValue, setStoredValue] = useState(() => {
+        try {
+            const item = window.localStorage.getItem(key);
+            return item ? JSON.parse(item) : defaultValue;
+        } catch (error) {
+            console.error(`Error reading localStorage key "${key}":`, error);
+            return defaultValue;
+        }
+    });
 
-        return val !== null ? JSON.parse(val) : defaultValue
-    })
+    useEffect(() => {
+        try {
+            window.localStorage.setItem(key, JSON.stringify(storedValue));
+        } catch (error) {
+            console.error(`Error setting localStorage key "${key}":`, error);
+        }
+    }, [key, storedValue]);
 
-    React.useEffect(() => {
-        window.localStorage.setItem(key, JSON.stringify(jwt))
-    },[key, jwt])
-
-    return [jwt, setJwt]
+    return [storedValue, setStoredValue];
 };
 
 export default useLocalStorage;
