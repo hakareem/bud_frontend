@@ -2,51 +2,56 @@ import React, { useState } from 'react';
 import useLocalStorage from '../util/useLocalStorage';
 
 const Login = () => {
-    const [jwt, setJwt] = useLocalStorage("", "jwt")
-    const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
+    const [jwt, setJwt] = useLocalStorage("", "jwt");
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
-      const data = {
-        username: username,
-        password: password,
-      };
-      
-      fetch("api/auth/login", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: new Headers({
-          "Content-Type": "application/json; charset=UTF-8",
-        }),
-      })
-      .then((res) => {
-        if(res.status == 200) 
-            return Promise.all([res.json(), res.headers]);
-        else 
-            return Promise.reject("Invalid login attempt")
-      })
-      .then(([data, headers]) => {
-        setJwt(headers.get("authorization"))
-        window.location.href = "dashboard"
-      }).catch((err) => {
-        console.log(err)
-      })
+    const sendLoginRequest = async () => {
+        const data = { username, password };
 
-    function sendLoginRequest() {
-        console.log("HEY TESTING REQUEST")
-    }
+        try {
+            const response = await fetch("api/auth/login", {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-Type": "application/json; charset=UTF-8",
+                },
+            });
+
+            if (response.ok) {
+                const authorization = response.headers.get("authorization");
+                setJwt(authorization);
+                window.location.href = "dashboard";
+            } else {
+                throw new Error("Invalid login attempt");
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <>
             <div>
                 <label htmlFor='username'>Username</label>
-                <input type="email" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                <input
+                    type="email"
+                    id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
             </div>
             <div>
                 <label htmlFor='password'>Password</label>
-                <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
             </div>
             <div>
-                <button id='submit' type='button' onClick={() => sendLoginRequest()}>Send</button>
+                <button id='submit' type='button' onClick={sendLoginRequest}>Send</button>
             </div>
         </>
     );
