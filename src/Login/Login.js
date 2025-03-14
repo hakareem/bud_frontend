@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import useLocalStorage from '../util/useLocalStorage';
+import './Login.css';
 
 const Login = () => {
     const [jwt, setJwt] = useLocalStorage("", "jwt");
@@ -31,29 +32,30 @@ const Login = () => {
     };
 
     return (
-        <>
-            <div>
-                <label htmlFor='username'>Username</label>
-                <input
-                    type="email"
-                    id="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
+        <div className="login-container">
+            <div className="login-form">
+                <h2>Login</h2>
+                <div className="form-group">
+                    <label htmlFor='username'>Username</label>
+                    <input
+                        type="email"
+                        id="username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor='password'>Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+                <button className="login-button" type='button' onClick={sendLoginRequest}>Send</button>
             </div>
-            <div>
-                <label htmlFor='password'>Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-            </div>
-            <div>
-                <button id='submit' type='button' onClick={sendLoginRequest}>Send</button>
-            </div>
-        </>
+        </div>
     );
 };
 
