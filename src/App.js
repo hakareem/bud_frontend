@@ -7,6 +7,7 @@ import Homepage from "./Homepage/Homepage";
 import AssignmentView from "./AssignmentView/AssignmentView";
 import Login from "./Login/Login";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import Register from "./Register/Register";
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
       }
       />
       <Route path="login" element={<Login />} />
+      <Route path="register" element={<Register />} />
       <Route path="/" element={<Homepage />} />
     </Routes>
     )
