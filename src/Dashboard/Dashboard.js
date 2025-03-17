@@ -1,47 +1,32 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import useLocalStorage from '../util/useLocalStorage';
 import './Dashboard.css';
 import { Link } from 'react-router-dom';
+import fetchService from '../Services/fetchService';
 
 const Dashboard = () => {
     const [jwt] = useLocalStorage("", "jwt");
-    const [assignments, setAssignments] = React.useState([]);
+    const [assignments, setAssignments] = useState([]);
 
-    useEffect(() => {   
+    useEffect(() => {
         const fetchAssignments = async () => {
             try {
-                const response = await fetch("api/assignments", {
-                    headers: {
-                        ContentType: "application/json",
-                        Authorization: `Bearer ${jwt}`
-                    }
-                });     
-                if (response.ok) {
-                    const assignments = await response.json();
-                    setAssignments(assignments);
-                }
-            }
-            catch (error) {
+                const response = await fetchService("api/assignments", jwt);
+                const assignments = await response.json();
+                setAssignments(assignments);
+            } catch (error) {
                 console.error("Error fetching assignments:", error);
             }
-        }
+        };
+
         fetchAssignments();
     }, [jwt]);
 
     const createAssignment = async () => {
         try {
-            const response = await fetch("api/assignments", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json; charset=UTF-8",
-                    "Authorization": `Bearer ${jwt}`
-                },
-            });
-
-            if (response.ok) {
-                const assignment = await response.json();
-                window.location.href = `/assignments/${assignment.id}`;
-            }
+            const response = await fetchService("api/assignments", jwt, "POST");
+            const assignment = await response.json();
+            window.location.href = `/assignments/${assignment.id}`;
         } catch (error) {
             console.error("Error creating assignment:", error);
         }
@@ -52,9 +37,11 @@ const Dashboard = () => {
             <header className="dashboard-header">
                 <h1>Dashboard</h1>
                 <p>Welcome to your assignment management dashboard.</p>
-                {assignments ? assignments.map(assignment => (
+                {assignments.length > 0 ? assignments.map(assignment => (
                     <div key={assignment.id}>
-                     <Link to={`/assignments/${assignment.id}`}><p>Assignment {assignment.id} : Status - {assignment.status}</p></Link>   
+                        <Link to={`/assignments/${assignment.id}`}>
+                            <p>Assignment {assignment.id} : Status - {assignment.status}</p>
+                        </Link>
                     </div>
                 )) : <p>No assignments found.</p>}
             </header>

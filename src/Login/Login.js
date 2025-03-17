@@ -1,34 +1,32 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import useLocalStorage from '../util/useLocalStorage';
 import './Login.css';
+import fetchService from '../Services/fetchService';
 
 const Login = () => {
     const [jwt, setJwt] = useLocalStorage("", "jwt");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const sendLoginRequest = async () => {
-        const data = { username, password };
-
         try {
-            const response = await fetch("api/auth/login", {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json; charset=UTF-8",
-                },
-            });
-
-            if (response.ok) {
-                const authorization = response.headers.get("authorization");
+            const response = await fetchService("api/auth/login", jwt, "POST", { username, password });
+            const authorization = response.headers.get("authorization");
+            if (authorization) {
                 setJwt(authorization);
                 window.location.href = "dashboard";
             } else {
-                throw new Error("Invalid login attempt");
+                console.error("Authorization header is missing in the response");
             }
         } catch (error) {
-            console.error(error);
+            console.error("Invalid login attempt", error);
         }
+    };
+
+    const goToRegister = () => {
+        navigate('/register');
     };
 
     return (
@@ -54,6 +52,7 @@ const Login = () => {
                     />
                 </div>
                 <button className="login-button" type='button' onClick={sendLoginRequest}>Send</button>
+                <button className="register-button" type='button' onClick={goToRegister}>Register</button>
             </div>
         </div>
     );
