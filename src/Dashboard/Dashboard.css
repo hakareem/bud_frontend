@@ -1,8 +1,7 @@
 .dashboard-container {
     text-align: center;
-    padding: 50px;
+    padding: 20px;
     background-color: #f0f2f5;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -14,6 +13,7 @@
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard-header h1 {
@@ -30,6 +30,59 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.assignments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.assignment-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.assignment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.assignment-card h3 {
+    margin: 0 0 10px;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.assignment-card p {
+    margin: 0;
+    font-size: 1.2em;
+    color: #666;
+}
+
+.edit-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.edit-button:hover {
+    background-color: #45a049;
 }
 
 .create-assignment-button {
@@ -41,6 +94,7 @@
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 20px;
 }
 
 .create-assignment-button:hover {

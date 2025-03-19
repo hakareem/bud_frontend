@@ -37,15 +37,23 @@ const Dashboard = () => {
             <header className="dashboard-header">
                 <h1>Dashboard</h1>
                 <p>Welcome to your assignment management dashboard.</p>
-                {assignments.length > 0 ? assignments.map(assignment => (
-                    <div key={assignment.id}>
-                        <Link to={`/assignments/${assignment.id}`}>
-                            <p>Assignment {assignment.id} : Status - {assignment.status}</p>
-                        </Link>
-                    </div>
-                )) : <p>No assignments found.</p>}
             </header>
             <main className="dashboard-main">
+                {assignments.length > 0 ? (
+                    <div className="assignments-grid">
+                        {assignments.map(assignment => (
+                            <div key={assignment.id} className="assignment-card">
+                                <h3>Assignment {assignment.id}</h3>
+                                <p>Status: {assignment.status}</p>
+                                <Link to={`/assignments/${assignment.id}`}>
+                                    <button className="edit-button">Edit</button>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p>No assignments found.</p>
+                )}
                 <button className="create-assignment-button" onClick={createAssignment}>Add New Assignment</button>
             </main>
         </div>

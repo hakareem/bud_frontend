@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import fetchService from "../Services/fetchService";
+import './AssignmentView.css';
 
 const AssignmentView = () => {
     const assignmentId = window.location.pathname.split("/")[2];
@@ -44,19 +45,33 @@ const AssignmentView = () => {
     }, [assignmentId, jwt]);
 
     return (
-        <div>
+        <div className="assignment-view-container">
             <h1>Assignment {assignmentId}</h1>
             {error ? (
-                <p>{error}</p>
+                <p className="error-message">{error}</p>
             ) : assignment ? (
-                <>
+                <div className="assignment-details">
                     <h3>Status: {assignment.status}</h3>
-                    <div>
-                        Github URL: <input type="url" id="gitHubUrl" value={assignment.githubUrl || ''} onChange={(e) => updateAssignment("githubUrl", e.target.value)} />
-                        Branch: <input type="text" id="branch" value={assignment.branch || ''} onChange={(e) => updateAssignment("branch", e.target.value)} />
+                    <div className="form-group">
+                        <label htmlFor="gitHubUrl">Github URL:</label>
+                        <input
+                            type="url"
+                            id="gitHubUrl"
+                            value={assignment.githubUrl || ''}
+                            onChange={(e) => updateAssignment("githubUrl", e.target.value)}
+                        />
                     </div>
-                    <button onClick={submitAssignment}>Submit Assignment</button>
-                </>
+                    <div className="form-group">
+                        <label htmlFor="branch">Branch:</label>
+                        <input
+                            type="text"
+                            id="branch"
+                            value={assignment.branch || ''}
+                            onChange={(e) => updateAssignment("branch", e.target.value)}
+                        />
+                    </div>
+                    <button className="submit-button" onClick={submitAssignment}>Submit Assignment</button>
+                </div>
             ) : (
                 <p>Loading...</p>
             )}
