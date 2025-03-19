@@ -7,16 +7,21 @@ const PrivateRoute = ({ children }) => {
     const [jwt] = useLocalStorage("", "jwt");
     const [isValid, setIsValid] = useState(null);
 
-    if(!jwt) {
-        return <Navigate to="/login" />;
-    } 
-
     useEffect(() => {
         const validateToken = async () => {
+            if (!jwt) {
+                setIsValid(false);
+                return;
+            }
+
             try {
-                const response = await ajax("api/auth/validate", jwt, "GET");
-                const isValid = await response.json();
-                setIsValid(isValid);
+                const response = await ajax(`api/auth/validate?token=${jwt}`, jwt, "GET");
+                if (response.ok) {
+                    const isValid = await response.json();
+                    setIsValid(isValid);
+                } else {
+                    setIsValid(false);
+                }
             } catch (error) {
                 console.error("Error validating JWT", error);
                 setIsValid(false);
@@ -24,7 +29,7 @@ const PrivateRoute = ({ children }) => {
         };
 
         validateToken();
-    }, []);
+    }, [jwt]);
 
     if (isValid === null) {
         return <p>Loading...</p>;
